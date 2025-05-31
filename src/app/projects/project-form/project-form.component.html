@@ -1,0 +1,41 @@
+<p>project-form works to create or edit a project!</p>
+<form (ngSubmit)="save()" class="project-form">
+  <label>
+    Project Name:
+    <input type="text" [(ngModel)]="project.name" name="name" required />
+  </label>
+
+  <label>
+    Description:
+    <textarea
+      [(ngModel)]="project.description"
+      name="description"
+      required
+    ></textarea>
+  </label>
+
+  <label>
+    Deadline:
+    <input type="date" [(ngModel)]="project.deadline" name="deadline" />
+  </label>
+
+  <label>
+    Assign Members:
+    <div class="checkbox-group">
+      <label *ngFor="let user of users">
+        <input
+          type="checkbox"
+          [value]="user.id"
+          name="memberIds"
+          [checked]="project.memberIds.includes(user.id)"
+          (change)="toggleMember(user.id, $event)"
+        />
+        {{ user.name }} ({{ user.role }})
+      </label>
+    </div>
+  </label>
+
+  <button mat-button type="submit">
+    {{ project.id ? "Update Project" : "Create Project" }}
+  </button>
+</form>

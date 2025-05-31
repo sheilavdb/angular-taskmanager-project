@@ -1,0 +1,12 @@
+<div class="card">
+  <h3 *ngIf="title">{{ title }}</h3>
+  <small *ngIf="subtitle">{{ subtitle }}</small>
+
+  <div class="card-content">
+    <ng-content></ng-content>
+  </div>
+
+  <div class="card-actions">
+    <ng-content select="[card-actions]"></ng-content>
+  </div>
+</div>

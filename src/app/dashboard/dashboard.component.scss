@@ -1,0 +1,35 @@
+h1 {
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  color: #222;
+}
+
+.actions {
+  margin-bottom: 2rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.overview {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+
+  .card {
+    flex: 1 1 300px;
+    background: #f3f3f3;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+
+    h3 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+    }
+
+    p {
+      margin: 0.5rem 0;
+    }
+  }
+}
