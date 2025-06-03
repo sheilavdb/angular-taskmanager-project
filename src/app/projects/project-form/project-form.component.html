@@ -1,41 +1,63 @@
-<p>project-form works to create or edit a project!</p>
-<form (ngSubmit)="save()" class="project-form">
+<form
+  *ngIf="projectForm"
+  [formGroup]="projectForm"
+  (ngSubmit)="saveProject()"
+  class="project-form"
+>
+  <h2>{{ isEditMode ? "Update Project:" : "Create Project:" }}</h2>
   <label>
     Project Name:
-    <input type="text" [(ngModel)]="project.name" name="name" required />
+    <input type="text" formControlName="name" />
+    <div
+      class="error"
+      *ngIf="
+        projectForm.get('name')?.touched && projectForm.get('name')?.invalid
+      "
+    >
+      Project name is required.
+    </div>
   </label>
 
   <label>
     Description:
-    <textarea
-      [(ngModel)]="project.description"
-      name="description"
-      required
-    ></textarea>
+    <textarea formControlName="description"></textarea>
+    <div
+      class="error"
+      *ngIf="
+        projectForm.get('description')?.touched &&
+        projectForm.get('description')?.invalid
+      "
+    >
+      Description is required.
+    </div>
   </label>
 
   <label>
     Deadline:
-    <input type="date" [(ngModel)]="project.deadline" name="deadline" />
+    <input type="date" formControlName="deadline" />
+    <div
+      class="error"
+      *ngIf="
+        projectForm.get('deadline')?.touched &&
+        projectForm.get('deadline')?.invalid
+      "
+    >
+      Deadline is required.
+    </div>
   </label>
 
   <label>
     Assign Members:
-    <div class="checkbox-group">
-      <label *ngFor="let user of users">
-        <input
-          type="checkbox"
-          [value]="user.id"
-          name="memberIds"
-          [checked]="project.memberIds.includes(user.id)"
-          (change)="toggleMember(user.id, $event)"
-        />
-        {{ user.name }} ({{ user.role }})
+    <div formArrayName="memberIds" class="checkbox-group">
+      <label *ngFor="let user of users; let i = index">
+        <input type="checkbox" [formControlName]="i" />
+        {{ user.name }} <br />
+        ({{ user.role }})
       </label>
     </div>
   </label>
 
-  <button mat-button type="submit">
-    {{ project.id ? "Update Project" : "Create Project" }}
+  <button mat-button type="submit" [disabled]="projectForm.invalid">
+    {{ isEditMode ? "Update Project" : "Create Project" }}
   </button>
 </form>

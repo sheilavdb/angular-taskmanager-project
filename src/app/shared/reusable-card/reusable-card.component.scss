@@ -2,7 +2,7 @@
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 0.75rem;
-  padding: 1.5rem;
+  padding: 1rem;
   margin: 1rem 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transition: box-shadow 0.2s ease-in-out;
@@ -28,15 +28,5 @@
     font-size: 1rem;
     color: #444;
     margin-bottom: 1rem;
-  }
-
-  .card-actions {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-
-    button {
-      font-size: 0.875rem;
-    }
   }
 }

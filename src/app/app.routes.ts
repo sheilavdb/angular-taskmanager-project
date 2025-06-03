@@ -5,6 +5,7 @@ import { ProjectListComponent } from './projects/project-list/project-list.compo
 import { TaskListComponent } from './tasks/task-list/task-list.component';
 import { UserListComponent } from './users/user-list/user-list.component';
 import { ProjectFormComponent } from './projects/project-form/project-form.component';
+import { UserFormComponent } from './users/user-form/user-form.component';
 
 export const routes: Routes = [
   {
@@ -17,6 +18,8 @@ export const routes: Routes = [
       { path: 'projects/edit/:id', component: ProjectFormComponent },
       { path: 'tasks', component: TaskListComponent },
       { path: 'users', component: UserListComponent },
+      { path: 'users/new', component: UserFormComponent },
+      { path: 'users/edit/:id', component: UserFormComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },

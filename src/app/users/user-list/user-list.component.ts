@@ -4,6 +4,7 @@ import { UserService } from '../../service/user.service';
 import { ReusableCardComponent } from '../../shared/reusable-card/reusable-card.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
@@ -13,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
     ReusableCardComponent,
     MatButtonModule,
     MatIconModule,
+    RouterModule,
   ],
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss'],

@@ -1,5 +1,5 @@
 <h1>Users</h1>
-<button mat-button routerLink="/users/new">
+<button mat-button [routerLink]="['/users/new']">
   <mat-icon>add</mat-icon>
   Create User
 </button>
@@ -7,7 +7,7 @@
   <app-reusable-card [title]="user.name" [subtitle]="user.role">
     <p>Email: {{ user.email }}</p>
     <div card-actions>
-      <button mat-button (click)="delete(user.id)">
+      <button mat-button [routerLink]="['/users/edit', user.id]">
         <mat-icon>edit</mat-icon>
         Edit
       </button>

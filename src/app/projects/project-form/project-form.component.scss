@@ -41,13 +41,20 @@
 .checkbox-group {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   gap: 0.5rem;
   margin-top: 0.5rem;
 }
 
 .checkbox-group label {
   font-weight: 400;
-  border: 1px solid black;
+  border: 1px solid #ccc;
   padding: 10px;
   border-radius: 6px;
+}
+
+.error {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 4px;
 }

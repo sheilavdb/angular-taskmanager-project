@@ -1,1 +1,40 @@
 <p>user-form creates or edits user</p>
+<form
+  *ngIf="userForm"
+  [formGroup]="userForm"
+  (ngSubmit)="saveUser()"
+  class="user-form"
+>
+  <h2>{{ isEditMode ? "Update User:" : "Create User:" }}</h2>
+  <label
+    >User Name: <input type="text" formControlName="name" />
+    <div
+      class="error"
+      *ngIf="userForm.get('name')?.touched && userForm.get('name')?.invalid"
+    >
+      User Name is required
+    </div>
+  </label>
+  <label
+    >User role: <input type="text" formControlName="role" />
+    <div
+      class="error"
+      *ngIf="userForm.get('role')?.touched && userForm.get('role')?.invalid"
+    >
+      User Role required
+    </div>
+  </label>
+  <label
+    >Email address: <input type="email" formControlName="email" />
+    <div
+      class="error"
+      *ngIf="userForm.get('email')?.touched && userForm.get('email')?.invalid"
+    >
+      Email address required
+    </div>
+  </label>
+
+  <button mat-button type="submit" [disabled]="userForm.invalid">
+    {{ isEditMode ? "Update User" : "Create User" }}
+  </button>
+</form>
