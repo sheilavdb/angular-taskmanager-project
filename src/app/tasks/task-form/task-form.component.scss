@@ -1,0 +1,69 @@
+.task-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 1rem 2rem 1rem 2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fafafa;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+  h2 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  label,
+  .customdiv {
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+
+    input,
+    textarea,
+    select {
+      padding: 0.6rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background-color: #fff;
+      transition: border-color 0.2s ease;
+
+      &:focus {
+        border-color: #007bff;
+        outline: none;
+      }
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+  }
+}
+.checkbox-group {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.checkbox-group label {
+  font-weight: 400;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.taskFormButtons {
+  display: flex;
+  gap: 1rem;
+}
+
+.error {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}

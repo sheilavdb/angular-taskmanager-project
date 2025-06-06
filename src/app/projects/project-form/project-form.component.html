@@ -5,9 +5,10 @@
   class="project-form"
 >
   <h2>{{ isEditMode ? "Update Project:" : "Create Project:" }}</h2>
-  <label>
-    Project Name:
-    <input type="text" formControlName="name" />
+
+  <div class="customdiv">
+    <label for="name">Project Name:</label>
+    <input id="name" type="text" formControlName="name" />
     <div
       class="error"
       *ngIf="
@@ -16,11 +17,11 @@
     >
       Project name is required.
     </div>
-  </label>
+  </div>
 
-  <label>
-    Description:
-    <textarea formControlName="description"></textarea>
+  <div class="customdiv">
+    <label for="description">Description:</label>
+    <textarea id="description" formControlName="description"></textarea>
     <div
       class="error"
       *ngIf="
@@ -30,11 +31,11 @@
     >
       Description is required.
     </div>
-  </label>
+  </div>
 
-  <label>
-    Deadline:
-    <input type="date" formControlName="deadline" />
+  <div class="customdiv">
+    <label for="deadline">Deadline:</label>
+    <input id="deadline" type="date" formControlName="deadline" />
     <div
       class="error"
       *ngIf="
@@ -44,20 +45,24 @@
     >
       Deadline is required.
     </div>
-  </label>
+  </div>
 
-  <label>
-    Assign Members:
+  <div>
+    <label>Assign Members:</label>
     <div formArrayName="memberIds" class="checkbox-group">
-      <label *ngFor="let user of users; let i = index">
-        <input type="checkbox" [formControlName]="i" />
-        {{ user.name }} <br />
-        ({{ user.role }})
-      </label>
+      <div *ngFor="let user of users; let i = index" class="checkbox-item">
+        <label>
+          <input type="checkbox" [formControlName]="i" />
+          {{ user.name }} ({{ user.role }})
+        </label>
+      </div>
     </div>
-  </label>
+  </div>
 
-  <button mat-button type="submit" [disabled]="projectForm.invalid">
-    {{ isEditMode ? "Update Project" : "Create Project" }}
-  </button>
+  <div class="projectFormButtons">
+    <button mat-button type="submit" [disabled]="projectForm.invalid">
+      {{ isEditMode ? "Update Project" : "Create Project" }}
+    </button>
+    <button mat-button type="button" (click)="cancelProject()">Cancel</button>
+  </div>
 </form>

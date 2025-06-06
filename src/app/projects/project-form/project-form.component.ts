@@ -90,4 +90,8 @@ export class ProjectFormComponent implements OnInit {
 
     this.router.navigate(['/projects']);
   }
+
+  cancelProject() {
+    this.router.navigate(['/projects']);
+  } //Here I want to navigate back to previous screen, so dashboard or projects, depending where I came from
 }

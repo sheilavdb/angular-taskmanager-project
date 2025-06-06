@@ -1,1 +1,99 @@
-<p>task-form is a form to create and edit tasks</p>
+<form
+  *ngIf="taskForm"
+  [formGroup]="taskForm"
+  (ngSubmit)="saveTask()"
+  class="task-form"
+>
+  <h2>{{ isEditMode ? "Update Task:" : "Create Task:" }}</h2>
+
+  <div class="customdiv">
+    <label for="title">Task Name:</label>
+    <input id="title" type="text" formControlName="title" />
+    <div
+      class="error"
+      *ngIf="taskForm.get('title')?.touched && taskForm.get('title')?.invalid"
+    >
+      Task name is required
+    </div>
+  </div>
+
+  <div class="customdiv">
+    <label for="description">Description</label>
+    <textarea id="description" formControlName="description"></textarea>
+    <div
+      class="error"
+      *ngIf="
+        taskForm.get('description')?.touched &&
+        taskForm.get('description')?.invalid
+      "
+    >
+      Description is required
+    </div>
+  </div>
+
+  <div class="customdiv">
+    <label for="deadline">Deadline:</label>
+    <input id="deadline" type="date" formControlName="deadline" />
+    <div
+      class="error"
+      *ngIf="
+        taskForm.get('deadline')?.touched && taskForm.get('deadline')?.invalid
+      "
+    >
+      Set a deadline.
+    </div>
+  </div>
+
+  <div class="customdiv">
+    <label for="status">Status:</label>
+    <select id="status" formControlName="status">
+      <option value="not-started">Not Started</option>
+      <option value="in-progress">In Progress</option>
+      <option value="completed">Completed</option>
+    </select>
+  </div>
+
+  <div class="customdiv">
+    <label for="projectId"> Project:</label>
+    <select id="projectId" formControlName="projectId">
+      <option value="" disabled>Select project</option>
+      <option *ngFor="let project of projects" [value]="project.id">
+        {{ project.name }}
+      </option>
+    </select>
+    <div
+      class="error"
+      *ngIf="
+        taskForm.get('projectId')?.touched && taskForm.get('projectId')?.invalid
+      "
+    >
+      A task must belong to a project
+    </div>
+  </div>
+
+  <div>
+    <label>Assigned Users:</label>
+    <div formArrayName="assignedUserId" class="checkbox-group">
+      <label *ngFor="let user of users; let i = index">
+        <input type="checkbox" [formControlName]="i" />
+        {{ user.name }} ({{ user.role }})
+      </label>
+    </div>
+  </div>
+
+  <div class="customdiv">
+    <label for="priority"> Priority:</label>
+    <select id="priority" formControlName="priority">
+      <option value="low">Low</option>
+      <option value="medium">Medium</option>
+      <option value="high">High</option>
+    </select>
+  </div>
+
+  <div class="taskFormButtons">
+    <button mat-button type="submit" [disabled]="taskForm.invalid">
+      {{ isEditMode ? "Update Task" : "Create Task" }}
+    </button>
+    <button mat-button type="button" (click)="cancelTask()">Cancel</button>
+  </div>
+</form>

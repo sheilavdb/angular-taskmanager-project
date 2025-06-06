@@ -43,6 +43,7 @@ export class UserFormComponent implements OnInit {
     this.userId = Math.max(0, ...users.map((u) => u.id)) + 1;
     this.initForm();
   }
+
   initForm(user?: User) {
     this.userForm = this.fb.group({
       name: [user?.name || '', Validators.required],
@@ -69,6 +70,9 @@ export class UserFormComponent implements OnInit {
       this.userService.addUser(newUser);
     }
 
+    this.router.navigate(['/users']);
+  }
+  cancelUser() {
     this.router.navigate(['/users']);
   }
 }

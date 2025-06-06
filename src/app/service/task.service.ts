@@ -7,7 +7,7 @@ export interface Task {
   status: 'not-started' | 'in-progress' | 'completed';
   priority: 'low' | 'medium' | 'high';
   deadline: string;
-  assignedTo: number[]; // array of user IDs
+  assignedUserId?: number[] | null; // array of user IDs
   projectId: number;
 }
 
@@ -23,7 +23,7 @@ export class TaskService {
       status: 'in-progress',
       priority: 'high',
       deadline: '2025-06-10',
-      assignedTo: [1],
+      assignedUserId: [1],
       projectId: 1,
     },
     {
@@ -33,7 +33,7 @@ export class TaskService {
       status: 'completed',
       priority: 'medium',
       deadline: '2025-06-01',
-      assignedTo: [2],
+      assignedUserId: [2],
       projectId: 1,
     },
   ]);
@@ -59,7 +59,7 @@ export class TaskService {
   }
 
   getTasksByUser(userId: number): Task[] {
-    return this._tasks().filter((t) => t.assignedTo.includes(userId));
+    return this._tasks().filter((t) => t.assignedUserId?.includes(userId));
   }
 
   getTasksByProject(projectId: number): Task[] {

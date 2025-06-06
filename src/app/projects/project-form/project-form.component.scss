@@ -9,16 +9,16 @@
   background-color: #fafafa;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 
-  label {
+  label,
+  .customdiv {
     display: flex;
     flex-direction: column;
     font-weight: 600;
-    margin-bottom: 1.2rem;
+    margin: 0.5rem;
     font-size: 0.95rem;
 
     input,
     textarea {
-      margin-top: 0.5rem;
       padding: 0.6rem;
       font-size: 1rem;
       border: 1px solid #ccc;
@@ -51,6 +51,11 @@
   border: 1px solid #ccc;
   padding: 10px;
   border-radius: 6px;
+}
+
+.projectFormButtons {
+  display: flex;
+  gap: 1rem;
 }
 
 .error {
