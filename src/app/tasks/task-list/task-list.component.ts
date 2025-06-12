@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TaskService, Task } from '../../service/task.service';
 import { ReusableCardComponent } from '../../shared/reusable-card/reusable-card.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
-import { UserService, User } from '../../service/user.service';
+import { UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-task-list',
@@ -21,23 +21,18 @@ import { UserService, User } from '../../service/user.service';
   styleUrls: ['./task-list.component.scss'],
 })
 export class TaskListComponent {
-  users: User[] = [];
+  tasks: Signal<Task[]>;
 
   constructor(
     private taskService: TaskService,
     private userService: UserService
-  ) {}
-
-  ngOnInit(): void {
-    this.users = this.userService.users();
-  }
-
-  get tasks() {
-    return this.taskService.tasks();
+  ) {
+    this.tasks = this.taskService.tasks;
   }
 
   getUserNames(memberIds: number[]): string {
-    const userNames = this.users
+    const userNames = this.userService
+      .users()
       .filter((user) => memberIds.includes(user.id))
       .map((user) => user.name);
     return userNames.join(', ');

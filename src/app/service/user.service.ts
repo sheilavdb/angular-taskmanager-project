@@ -1,4 +1,5 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { DataService } from './data.service';
 
 export interface User {
   id: number;
@@ -11,49 +12,25 @@ export interface User {
   providedIn: 'root',
 })
 export class UserService {
-  // Private signal holding the array of users
-  private _users = signal<User[]>([
-    {
-      id: 1,
-      name: 'Alice',
-      email: 'alice@example.com',
-      role: 'Developer',
-    },
-    {
-      id: 2,
-      name: 'Bob',
-      email: 'bob@example.com',
-      role: 'Designer',
-    },
-    {
-      id: 3,
-      name: 'Charlie',
-      email: 'charlie@example.com',
-      role: 'Manager',
-    },
-  ]);
+  users;
 
-  // Expose readonly signal for safety
-  users = this._users.asReadonly();
+  constructor(private dataService: DataService) {
+    this.users = this.dataService.users;
+  }
 
-  // Add a new user
   addUser(user: User) {
-    this._users.update((users) => [...users, user]);
+    this.dataService.addUser(user);
   }
 
-  // Update existing user by id
-  updateUser(updatedUser: User) {
-    this._users.update((users) =>
-      users.map((u) => (u.id === updatedUser.id ? updatedUser : u))
-    );
+  updateUser(user: User) {
+    this.dataService.updateUser(user);
   }
 
-  // Delete user by id
   deleteUser(id: number) {
-    this._users.update((users) => users.filter((u) => u.id !== id));
+    this.dataService.deleteUser(id);
   }
 
   getUserById(id: number): User | undefined {
-    return this._users().find((u) => u.id === id);
+    return this.dataService.users().find((u) => u.id === id);
   }
 }

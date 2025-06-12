@@ -4,7 +4,7 @@
   Create Task
 </button>
 
-<div *ngFor="let task of tasks">
+<div *ngFor="let task of tasks()">
   <app-reusable-card
     [title]="task.title"
     [subtitle]="

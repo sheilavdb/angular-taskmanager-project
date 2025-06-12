@@ -9,9 +9,9 @@
     [title]="project.name"
     [subtitle]="
       'Deadline: ' +
-      (project.deadline | date) +
+      (project.deadline ? (project.deadline | date) : 'N/A') +
       ' - ' +
-      getUserNames(project.memberIds)
+      getUserNames(project.memberIds || [])
     "
   >
     <p>{{ project.description }}</p>

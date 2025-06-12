@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Project, ProjectService } from '../../service/project.service';
 import { ReusableCardComponent } from '../../shared/reusable-card/reusable-card.component';
@@ -21,21 +21,18 @@ import { UserService } from '../../service/user.service';
   styleUrls: ['./project-list.component.scss'],
 })
 export class ProjectListComponent {
+  projects: Signal<Project[]>;
+
   constructor(
     private projectService: ProjectService,
     private userService: UserService
-  ) {}
-
-  get projects() {
-    return this.projectService.projects;
-  }
-
-  get users() {
-    return this.userService.users();
+  ) {
+    this.projects = this.projectService.projects;
   }
 
   getUserNames(memberIds: number[]): string {
-    const userNames = this.users
+    const users = this.userService.users();
+    const userNames = users
       .filter((user) => memberIds.includes(user.id))
       .map((user) => user.name);
     return userNames.join(', ');
