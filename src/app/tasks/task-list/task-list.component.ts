@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { UserService } from '../../service/user.service';
+import { DaysLeftPipe } from '../../shared/days-left.pipe';
+import { DaysLeftColorPipe } from '../../shared/days-left-color.pipe';
 
 @Component({
   selector: 'app-task-list',
@@ -16,6 +18,8 @@ import { UserService } from '../../service/user.service';
     ReusableCardComponent,
     MatButtonModule,
     MatIconModule,
+    DaysLeftPipe,
+    DaysLeftColorPipe,
   ],
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss'],

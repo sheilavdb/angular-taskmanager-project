@@ -5,15 +5,14 @@
 </button>
 
 <div *ngFor="let task of tasks()">
-  <app-reusable-card
-    [title]="task.title"
-    [subtitle]="
-      'Deadline: ' +
-      (task.deadline | date) +
-      ' - ' +
-      getUserNames(task.assignedUserId || [])
-    "
-  >
+  <app-reusable-card [title]="task.title">
+    <p style="font-size: 12px; margin: 0px">
+      <span [ngStyle]="task.deadline | daysLeftColor">
+        {{ task.deadline | daysLeft }}
+      </span>
+      -
+      {{ getUserNames(task.assignedUserId || []) }}
+    </p>
     <p>Status: {{ task.status }}</p>
     <p>Priority: {{ task.priority }}</p>
     <div card-actions>
