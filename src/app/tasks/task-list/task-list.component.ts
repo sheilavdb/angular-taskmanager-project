@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { UserService } from '../../service/user.service';
 import { DaysLeftPipe } from '../../shared/days-left.pipe';
 import { DaysLeftColorPipe } from '../../shared/days-left-color.pipe';
+import { HoverTooltipDirective } from '../../shared/hover-tooltip.directive';
 
 @Component({
   selector: 'app-task-list',
@@ -20,6 +21,7 @@ import { DaysLeftColorPipe } from '../../shared/days-left-color.pipe';
     MatIconModule,
     DaysLeftPipe,
     DaysLeftColorPipe,
+    HoverTooltipDirective,
   ],
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss'],
