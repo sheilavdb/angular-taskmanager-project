@@ -47,18 +47,6 @@
     </div>
   </div>
 
-  <div>
-    <label>Assign Members:</label>
-    <div formArrayName="memberIds" class="checkbox-group">
-      <div *ngFor="let user of users; let i = index" class="checkbox-item">
-        <label>
-          <input type="checkbox" [formControlName]="i" />
-          {{ user.name }} ({{ user.role }})
-        </label>
-      </div>
-    </div>
-  </div>
-
   <div class="projectFormButtons">
     <button mat-button type="submit" [disabled]="projectForm.invalid">
       {{ isEditMode ? "Update Project" : "Create Project" }}

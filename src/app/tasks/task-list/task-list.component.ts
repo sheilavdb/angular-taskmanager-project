@@ -1,5 +1,6 @@
 import { Component, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { TaskService, Task } from '../../service/task.service';
 import { ReusableCardComponent } from '../../shared/reusable-card/reusable-card.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,6 +16,7 @@ import { HoverTooltipDirective } from '../../shared/hover-tooltip.directive';
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule,
     ReusableCardComponent,
     MatButtonModule,
@@ -28,12 +30,39 @@ import { HoverTooltipDirective } from '../../shared/hover-tooltip.directive';
 })
 export class TaskListComponent {
   tasks: Signal<Task[]>;
+  selectedUserId: number | '' = '';
+  sortBy: '' | 'status' | 'deadline' = '';
 
   constructor(
     private taskService: TaskService,
-    private userService: UserService
+    public userService: UserService
   ) {
     this.tasks = this.taskService.tasks;
+  }
+
+  get filteredTasks(): Task[] {
+    let result = this.tasks();
+
+    // Filter by selected user
+    if (this.selectedUserId !== '') {
+      result = result.filter((task) =>
+        task.assignedUserId?.includes(Number(this.selectedUserId))
+      );
+    }
+
+    // Sort by selected criteria
+    if (this.sortBy === 'status') {
+      result = result.slice().sort((a, b) => a.status.localeCompare(b.status));
+    } else if (this.sortBy === 'deadline') {
+      result = result
+        .slice()
+        .sort(
+          (a, b) =>
+            new Date(a.deadline).getTime() - new Date(b.deadline).getTime()
+        );
+    }
+
+    return result;
   }
 
   getUserNames(memberIds: number[]): string {
@@ -50,5 +79,9 @@ export class TaskListComponent {
 
   delete(id: number) {
     this.taskService.deleteTask(id);
+  }
+
+  complete(taskId: number) {
+    this.taskService.completeTask(taskId);
   }
 }

@@ -60,6 +60,16 @@ export class HoverTooltipDirective {
 
   @HostListener('mouseleave')
   onMouseLeave() {
+    this.removeTooltip();
+  }
+
+  @HostListener('mousedown')
+  @HostListener('touchstart')
+  onInteraction() {
+    this.removeTooltip();
+  }
+
+  private removeTooltip() {
     if (this.tooltipElement) {
       this.renderer.removeChild(document.body, this.tooltipElement);
       this.tooltipElement = null;

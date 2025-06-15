@@ -1,0 +1,12 @@
+.completed-task {
+  color: #888;
+  opacity: 0.6;
+
+  p {
+    text-decoration: line-through;
+  }
+
+  mat-icon {
+    color: #aaa;
+  }
+}

@@ -91,4 +91,12 @@ export class DataService {
   deleteTask(id: number) {
     this._tasks.update((tasks) => tasks.filter((t) => t.id !== id));
   }
+
+  completeTask(taskId: number) {
+    this._tasks.update((tasks) =>
+      tasks.map((task) =>
+        task.id === taskId ? { ...task, status: 'completed' } : task
+      )
+    );
+  }
 }

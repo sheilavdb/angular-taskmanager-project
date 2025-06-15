@@ -34,6 +34,10 @@ export class TaskService {
     this.dataService.deleteTask(id);
   }
 
+  completeTask(taskId: number) {
+    this.dataService.completeTask(taskId);
+  }
+
   getTaskById(id: number): Task | undefined {
     return this.dataService.tasks().find((t) => t.id === id);
   }

@@ -1,11 +1,37 @@
 <h1>Tasks</h1>
+
 <button mat-button routerLink="/tasks/new">
   <mat-icon>add</mat-icon>
   Create Task
 </button>
 
-<div *ngFor="let task of tasks()">
-  <app-reusable-card [title]="task.title" [appHoverTooltip]="task.description">
+<!--Sort on status/deadline and filter by user-->
+<div style="margin: 16px 0; display: flex; gap: 16px; flex-wrap: wrap">
+  <div>
+    <label>Sort By:</label>
+    <select [(ngModel)]="sortBy">
+      <option value="">None</option>
+      <option value="status">Status</option>
+      <option value="deadline">Deadline</option>
+    </select>
+  </div>
+  <div>
+    <label>User:</label>
+    <select [(ngModel)]="selectedUserId">
+      <option value="">All Users</option>
+      <option *ngFor="let user of userService.users()" [value]="user.id">
+        {{ user.name }}
+      </option>
+    </select>
+  </div>
+</div>
+
+<div *ngFor="let task of filteredTasks">
+  <app-reusable-card
+    [title]="task.title"
+    [appHoverTooltip]="task.description"
+    [ngClass]="{ 'completed-task': task.status === 'completed' }"
+  >
     <p style="font-size: 12px; margin: 0px">
       <span [ngStyle]="task.deadline | daysLeftColor">
         {{ task.deadline | daysLeft }}
@@ -16,7 +42,9 @@
     <p>Status: {{ task.status }}</p>
     <p>Priority: {{ task.priority }}</p>
     <div card-actions>
-      <button mat-button><mat-icon>check</mat-icon>Completed</button>
+      <button mat-button (click)="complete(task.id)">
+        <mat-icon>check</mat-icon>Completed
+      </button>
       <button mat-button [routerLink]="['/tasks/edit', task.id]">
         <mat-icon>edit</mat-icon>
         Edit
