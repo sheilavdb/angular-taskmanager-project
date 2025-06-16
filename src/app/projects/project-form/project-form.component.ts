@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, effect, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormArray,
@@ -31,18 +31,36 @@ export class ProjectFormComponent implements OnInit {
   projectId = 0;
   isEditMode = false;
 
+  // Moved effect to constructor, which is an injection context:
+  constructor() {
+    effect(() => {
+      // This effect re-runs whenever projects() signal changes
+      this.projectService.projects();
+      this.initFormEffect();
+    });
+  }
+
   ngOnInit() {
-    this.users = this.userService.users(); // <-- load available users
+    this.users = this.userService.users();
 
     const id = this.route.snapshot.paramMap.get('id');
+    this.isEditMode = !!id;
+
+    // Initial form setup:
+    this.initFormEffect();
+  }
+
+  initFormEffect() {
+    const id = this.route.snapshot.paramMap.get('id'); // always get fresh id here
     const projects = this.projectService.projects();
 
-    if (id) {
+    if (this.isEditMode && id) {
       const existing = projects.find((p) => p.id === +id);
       if (existing) {
         this.projectId = existing.id;
-        this.isEditMode = true;
         this.initForm(existing);
+      } else {
+        this.router.navigate(['/projects']);
       }
     } else {
       this.projectId = Math.max(0, ...projects.map((p) => p.id)) + 1;
@@ -57,11 +75,16 @@ export class ProjectFormComponent implements OnInit {
       deadline: [project?.deadline || '', Validators.required],
       memberIds: this.fb.array(
         this.users.map((user) =>
-          this.fb.control(project?.memberIds.includes(user.id) || false)
+          this.fb.control(
+            project && project.memberIds
+              ? project.memberIds.includes(user.id)
+              : false
+          )
         )
       ),
     });
   }
+
   get memberIds(): FormArray {
     return this.projectForm.get('memberIds') as FormArray;
   }
@@ -93,5 +116,5 @@ export class ProjectFormComponent implements OnInit {
 
   cancelProject() {
     this.router.navigate(['/projects']);
-  } //Here I want to navigate back to previous screen, so dashboard or projects, depending where I came from
+  }
 }
