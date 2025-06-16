@@ -47,7 +47,7 @@ export class DataService {
       });
   }
 
-  // User mutations
+  // User data
   addUser(user: User) {
     this._users.update((users) => [...users, user]);
   }
@@ -62,7 +62,7 @@ export class DataService {
     this._users.update((users) => users.filter((u) => u.id !== id));
   }
 
-  // Project mutations
+  // Project data
   addProject(project: Project) {
     this._projects.update((projects) => [...projects, project]);
   }
@@ -77,7 +77,7 @@ export class DataService {
     this._projects.update((projects) => projects.filter((p) => p.id !== id));
   }
 
-  // Task mutations
+  // Task data
   addTask(task: Task) {
     this._tasks.update((tasks) => [...tasks, task]);
   }
