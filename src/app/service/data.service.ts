@@ -14,7 +14,7 @@ export class DataService {
   private _projects = signal<Project[]>([]);
   private _tasks = signal<Task[]>([]);
 
-  // Expose readonly signals
+  // Readonly for safety
   users = this._users.asReadonly();
   projects = this._projects.asReadonly();
   tasks = this._tasks.asReadonly();

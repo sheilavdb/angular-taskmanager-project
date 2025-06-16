@@ -92,7 +92,7 @@ export class TaskFormComponent implements OnInit {
       status: formValue.status,
       priority: formValue.priority,
       deadline: formValue.deadline,
-      projectId: formValue.projectId,
+      projectId: Number(formValue.projectId),
       assignedUserId: selectedUserId,
     };
 

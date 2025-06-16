@@ -10,14 +10,17 @@
 
 <div style="margin: 16px 0">
   <label>Sort by:</label>
-  <select [(ngModel)]="selectedSortOption">
+  <select
+    [ngModel]="selectedSortOption()"
+    (ngModelChange)="selectedSortOption.set($event)"
+  >
     <option value="">None</option>
     <option value="name">Name</option>
     <option value="deadline">Deadline</option>
   </select>
 </div>
 
-<div *ngFor="let project of sortedProjects">
+<div *ngFor="let project of sortedProjects()">
   <app-reusable-card
     [title]="project.name"
     [subtitle]="
