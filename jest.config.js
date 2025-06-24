@@ -1,24 +1,19 @@
-const { pathsToModuleNameMapper } = require("ts-jest");
+const { pathsToModuleNameMapper } = require("ts-jest"); // for ts-jest < 27
 const { compilerOptions } = require("./tsconfig.json");
 
 module.exports = {
   preset: "jest-preset-angular",
   setupFilesAfterEnv: ["<rootDir>/setup-jest.ts"],
-  globals: {
-    "ts-jest": {
-      tsconfig: "tsconfig.spec.json",
-      stringifyContentPathRegex: "\\.(html|svg|css|scss|sass|less)$",
-    },
-  },
-
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
-    prefix: "<rootDir>/",
-  }),
   transform: {
-    "^.+\\.(ts|js|html)$": "ts-jest",
-    "^.+\\.(ts|js|html|css|scss|sass|less)$": "jest-preset-angular",
+    "^.+\\.(ts|js|html)$": "jest-preset-angular",
   },
-  testEnvironment: "jsdom",
-  moduleFileExtensions: ["ts", "html", "js", "json"],
+  moduleNameMapper: {
+    "\\.(scss|sass|css|less)$": "identity-obj-proxy",
+    ...pathsToModuleNameMapper(compilerOptions.paths || {}, {
+      prefix: "<rootDir>/",
+    }),
+  },
   transformIgnorePatterns: ["node_modules/(?!.*\\.mjs$)"],
+  moduleFileExtensions: ["ts", "html", "js", "json"],
+  testEnvironment: "jsdom",
 };

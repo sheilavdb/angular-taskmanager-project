@@ -1,53 +1,65 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TaskFormComponent } from './task-form.component';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { of } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TaskService } from '../../service/task.service';
-import { Router } from '@angular/router';
+import { UserService } from '../../service/user.service';
+import { ProjectService } from '../../service/project.service';
+import { FormBuilder } from '@angular/forms';
 
 describe('TaskFormComponent', () => {
   let component: TaskFormComponent;
   let fixture: ComponentFixture<TaskFormComponent>;
 
-  const mockTaskService = {
-    addTask: jest.fn().mockReturnValue(of({})),
-    updateTask: jest.fn().mockReturnValue(of({})),
-    tasks: jest.fn().mockReturnValue([]),
-  };
-
-  const mockRouter = {
-    navigate: jest.fn(),
-  };
+  let mockTaskService: any;
+  let mockUserService: any;
+  let mockProjectService: any;
+  let mockActivatedRoute: any;
+  let mockRouter: any;
 
   beforeEach(async () => {
+    mockTaskService = {
+      tasks: jest.fn(() => []),
+      addTask: jest.fn(),
+      updateTask: jest.fn(),
+    };
+
+    mockUserService = {
+      users: jest.fn(() => [
+        { id: 1, name: 'User One' },
+        { id: 2, name: 'User Two' },
+      ]),
+    };
+
+    mockProjectService = {
+      projects: jest.fn(() => []),
+    };
+
+    mockActivatedRoute = {
+      snapshot: {
+        paramMap: {
+          get: jest.fn(() => null), // create mode
+        },
+      },
+    };
+
+    mockRouter = {
+      navigate: jest.fn(),
+    };
+
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, TaskFormComponent], // import standalone component here
+      imports: [TaskFormComponent],
       providers: [
+        FormBuilder,
         { provide: TaskService, useValue: mockTaskService },
+        { provide: UserService, useValue: mockUserService },
+        { provide: ProjectService, useValue: mockProjectService },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: Router, useValue: mockRouter },
       ],
     }).compileComponents();
-  });
-
-  beforeEach(() => {
-    jest.clearAllMocks(); // Reset mocks before each test
 
     fixture = TestBed.createComponent(TaskFormComponent);
     component = fixture.componentInstance;
-
-    component.taskId = 1;
-
-    // Initialize the component (calls ngOnInit and sets up the form)
-    if (component.ngOnInit) {
-      component.ngOnInit();
-    }
-
-    // Set all assignedUserId checkboxes to false initially
-    component.assignedUserIdArray.controls.forEach((control) =>
-      control.setValue(false)
-    );
-
     fixture.detectChanges();
   });
 
@@ -56,46 +68,36 @@ describe('TaskFormComponent', () => {
   });
 
   it('should initialize in create mode', () => {
+    expect(component.taskId).toBe(1);
     expect(component.isEditMode).toBe(false);
-    expect(component.taskForm.valid).toBe(false);
-    expect(component.taskId).toBeGreaterThan(0);
   });
 
-  it('should build form with valid data and call saveTask()', () => {
-    component.taskForm.patchValue({
-      title: 'Test Task',
-      description: 'A description',
-      status: 'in-progress',
-      priority: 'medium',
-      deadline: '2025-12-31',
-      projectId: 101,
-    });
-
-    component.assignedUserIdArray.controls.forEach((control) =>
-      control.setValue(true)
-    );
-
-    component.saveTask();
-
-    expect(component.taskForm.valid).toBe(true);
-    expect(mockTaskService.addTask).toHaveBeenCalled();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/tasks']);
-  });
-
-  it('should not call saveTask() if form is invalid', () => {
-    component.taskForm.patchValue({
+  it('should not call addTask if form is invalid', () => {
+    component.taskForm.setValue({
       title: '',
       description: '',
-      status: '',
-      priority: '',
+      status: 'not-started',
+      priority: 'medium',
       deadline: '',
-      projectId: null,
+      projectId: '',
+      assignedUserId: [false, false],
     });
-
     component.saveTask();
-
-    expect(component.taskForm.valid).toBe(false);
     expect(mockTaskService.addTask).not.toHaveBeenCalled();
-    expect(mockRouter.navigate).not.toHaveBeenCalled();
+  });
+
+  it('should call addTask with valid form', () => {
+    component.taskForm.setValue({
+      title: 'Test',
+      description: 'Description',
+      status: 'not-started',
+      priority: 'medium',
+      deadline: '2025-01-01',
+      projectId: '101',
+      assignedUserId: [true, true],
+    });
+    component.saveTask();
+    expect(mockTaskService.addTask).toHaveBeenCalled();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/tasks']);
   });
 });

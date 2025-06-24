@@ -46,7 +46,7 @@ describe('TaskService', () => {
   });
 
   it('should call dataService.updateTask with the updated task', () => {
-    const updatedTask: Task = { ...mockTasks[0], title: 'Updated Task A' };
+    const updatedTask: Task = { ...mockTasks[0], title: 'Updated Task X' };
     service.updateTask(updatedTask);
     expect(mockDataService.updateTask).toHaveBeenCalledWith(updatedTask);
   });
